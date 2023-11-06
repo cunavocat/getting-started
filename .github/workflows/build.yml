@@ -1,2 +1,16 @@
 name: my-ci
-on : [push]
+on: [push]
+jobs:
+  build-deploy-docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: ls
+      - uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME}}
+          password: ${{ secrets.DOCKERHUB_TOKEN}}
+      - uses: docker/build-push-action@v5
+        with:
+          push: true
+          tags: romaintmc/getting-started:latest
